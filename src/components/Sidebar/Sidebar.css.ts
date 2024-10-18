@@ -2,21 +2,26 @@ import { style } from '@vanilla-extract/css';
 
 export const sidebar = style({
     width: 260,
+    minWidth: 260,
     height: '100vh',
-    position: 'relative',
+    position: 'fixed',
+    left: 0,
+    top: 0,
     borderRight: '1px solid #44546f',
+    backgroundColor: '#fff',
+    zIndex: 2,
 });
 
 export const create = style({
     background: 'none',
     border: 'none',
-    fontSize: 14,
+    fontSize: 24,
     color: '#172b4d',
     borderRadius: 3,
     cursor: 'pointer',
     position: 'absolute',
-    top: 50,
-    right: 12,
+    top: 45,
+    right: 8,
 
     ':hover': {
         backgroundColor: '#091e4220',

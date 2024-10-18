@@ -11,7 +11,7 @@ export function App() {
                 <Sidebar />
                 <Routes>
                     <Route path="/" element={<HomePage />} />
-                    <Route path="/boards/:boardId" element={<BoardPage />} />
+                    <Route path="/board/:boardId" element={<BoardPage />} />
                 </Routes>
             </div>
         </Router>

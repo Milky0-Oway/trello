@@ -29,16 +29,20 @@ export const item = style({
 });
 
 export const link = style({
+    width: 290,
+    height: 95,
+    display: 'block',
     fontSize: 16,
     color: '#fff',
     fontWeight: 500,
-    marginLeft: 10,
-    marginTop: 5,
+    paddingLeft: 10,
+    paddingTop: 5,
     textDecoration: 'none',
 });
 
 export const boardsContainer = style({
     padding: '32px 100px',
+    paddingLeft: 360,
 });
 
 export const create = style({

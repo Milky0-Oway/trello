@@ -8,7 +8,7 @@ const boardsSlice = createSlice({
     name: 'boards',
     initialState,
     reducers: {
-        addBoard(state, action: PayloadAction<{ board: Board }>) {
+        addBoard(state, action: PayloadAction<{ board: BoardType }>) {
             state.boards.push(action.payload.board);
         },
         editBoard(
@@ -27,18 +27,29 @@ const boardsSlice = createSlice({
                 (board) => board.id !== action.payload.boardId,
             );
         },
+        addListToBoard(
+            state,
+            action: PayloadAction<{ boardId: string; listId: string }>,
+        ) {
+            const { boardId, listId } = action.payload;
+            const board = state.boards.find((board) => board.id === boardId);
+            if (board) {
+                board.lists.push(listId);
+            }
+        },
     },
 });
 
-export const { addBoard, editBoard, deleteBoard } = boardsSlice.actions;
+export const { addBoard, editBoard, deleteBoard, addListToBoard } =
+    boardsSlice.actions;
 export const boardsReducer = boardsSlice.reducer;
 
-interface Board {
+export interface BoardType {
     id: string;
     title: string;
     lists: string[];
 }
 
 interface BoardsState {
-    boards: Board[];
+    boards: BoardType[];
 }
