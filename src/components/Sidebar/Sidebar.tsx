@@ -35,7 +35,7 @@ export const Sidebar: React.FC = () => {
                     closeModal={closeModal}
                 />
                 {boards.map((board) => (
-                    <Board board={board} />
+                    <Board key={board.id} board={board} />
                 ))}
             </div>
         </div>

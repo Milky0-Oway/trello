@@ -16,10 +16,20 @@ const listsSlice = createSlice({
                 (list) => list.id !== action.payload.listId,
             );
         },
+        updateListTitle(
+            state,
+            action: PayloadAction<{ listId: string; newTitle: string }>,
+        ) {
+            const { listId, newTitle } = action.payload;
+            const list = state.lists.find((list) => list.id === listId);
+            if (list) {
+                list.title = newTitle;
+            }
+        },
     },
 });
 
-export const { addList, deleteList } = listsSlice.actions;
+export const { addList, deleteList, updateListTitle } = listsSlice.actions;
 export const listsReducer = listsSlice.reducer;
 
 interface List {

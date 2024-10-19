@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../app/store';
 import { addTask, deleteTask } from '../tasks/tasksSlice';
@@ -7,53 +7,115 @@ import { Droppable, Draggable } from 'react-beautiful-dnd';
 import {
     listContainer,
     listHeader,
-    addTaskButton,
-    addingButton,
-    cancelButton,
-    addingInput,
-    addingForm,
     listWrapper,
+    deleteButton,
+    addTaskButton,
 } from './List.css';
-
-interface ListProps {
-    listId: string;
-}
+import { addLog } from '../activityLog/activityLogSlice';
+import { updateListTitle, deleteList } from './listsSlice';
+import { AddItemForm } from '../../components/AddItemForm/AddItemForm';
+import { v4 as uuidv4 } from 'uuid';
 
 export const List: React.FC<ListProps> = ({ listId }) => {
     const list = useSelector((state: RootState) =>
-        state.lists.lists.find((l) => l.id === listId),
+        state.lists.lists.find((list) => list.id === listId),
     );
     const tasks = useSelector((state: RootState) =>
         state.tasks.tasks.filter((task) => task.listId === listId),
     );
 
-    const [newTaskTitle, setNewTaskTitle] = useState('');
+    const [newTitle, setNewTitle] = useState(list?.title || '');
     const [isAdding, setIsAdding] = useState(false);
     const dispatch = useDispatch();
 
+    useEffect(() => {
+        if (list) {
+            setNewTitle(list.title);
+        }
+    }, [list]);
+
     if (!list) {
-        return <p>List not found</p>;
+        return null;
     }
 
-    const handleAddTask = () => {
-        if (newTaskTitle.trim() === '') return;
+    const handleAddTask = (title: string) => {
         const newTask = {
-            id: Math.random().toString(36).substr(2, 9),
-            title: newTaskTitle,
+            id: uuidv4(),
+            title,
             description: '',
             listId: listId,
         };
         dispatch(addTask({ task: newTask }));
-        setNewTaskTitle('');
+        dispatch(
+            addLog({
+                id: uuidv4(),
+                timestamp: new Date().toISOString(),
+                taskId: newTask.id,
+                listId: newTask.listId,
+                boardId: list.boardId,
+                leftSide: 'added ',
+                link: `${newTask.title}`,
+                rightSide: ` to ${list.title}`,
+            }),
+        );
     };
 
     const handleRemoveTask = (taskId: string) => {
+        dispatch(
+            addLog({
+                id: uuidv4(),
+                timestamp: new Date().toISOString(),
+                taskId: '',
+                listId: listId,
+                boardId: list.boardId,
+                leftSide: `deleted card ${taskId} from ${list.title}`,
+                link: ``,
+                rightSide: ``,
+            }),
+        );
         dispatch(deleteTask({ taskId }));
+    };
+
+    const handleDeleteList = () => {
+        dispatch(
+            addLog({
+                id: uuidv4(),
+                timestamp: new Date().toISOString(),
+                taskId: '',
+                listId: listId,
+                boardId: list.boardId,
+                leftSide: `removed list ${listId} from this board`,
+                link: ``,
+                rightSide: ``,
+            }),
+        );
+        dispatch(deleteList({ listId }));
+    };
+
+    const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setNewTitle(e.target.value);
+    };
+
+    const handleBlur = () => {
+        if (newTitle !== list?.title && list) {
+            dispatch(updateListTitle({ listId: list.id, newTitle }));
+        }
     };
 
     return (
         <div className={listContainer}>
-            <h2 className={listHeader}>{list.title}</h2>
+            <input
+                className={listHeader}
+                type="text"
+                value={newTitle}
+                onChange={handleTitleChange}
+                onBlur={handleBlur}
+            />
+            <button
+                className={deleteButton}
+                onClick={handleDeleteList}
+                aria-label="Delete list"
+            />
 
             <Droppable droppableId={listId}>
                 {(provided) => (
@@ -87,33 +149,18 @@ export const List: React.FC<ListProps> = ({ listId }) => {
                 )}
             </Droppable>
 
-            {!isAdding ? (
-                <button
-                    className={addTaskButton}
-                    onClick={() => setIsAdding(true)}
-                >
-                    + Add Task
-                </button>
-            ) : (
-                <div className={addingForm}>
-                    <input
-                        className={addingInput}
-                        type="text"
-                        placeholder="Enter a title"
-                        value={newTaskTitle}
-                        onChange={(e) => setNewTaskTitle(e.target.value)}
-                    />
-                    <button className={addingButton} onClick={handleAddTask}>
-                        Add card
-                    </button>
-                    <button
-                        className={cancelButton}
-                        onClick={() => setIsAdding(false)}
-                    >
-                        X
-                    </button>
-                </div>
-            )}
+            <AddItemForm
+                placeholder="Enter title..."
+                buttonText="Add a card"
+                onAddItem={handleAddTask}
+                isAdding={isAdding}
+                setIsAdding={setIsAdding}
+                buttonStyle={addTaskButton}
+            />
         </div>
     );
 };
+
+interface ListProps {
+    listId: string;
+}

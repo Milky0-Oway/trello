@@ -4,16 +4,26 @@ export const boardItem = style({
     position: 'relative',
 });
 
+export const title = style({
+    overflowWrap: 'break-word',
+    maxWidth: 200,
+    width: 200,
+    margin: 0,
+});
+
 export const deleteButton = style({
     background: 'none',
     border: 'none',
     position: 'absolute',
-    right: 12,
-    top: 5,
+    right: 10,
+    top: '50%',
     cursor: 'pointer',
-    fontSize: 18,
-    fontFamily: "Consolas, 'Courier New', monospace",
-    textTransform: 'lowercase',
+    backgroundImage: 'url(../../assets/close.svg)',
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    width: 24,
+    height: 24,
+    transform: 'translateY(-50%)',
     ':hover': {
         backgroundColor: '#091e4220',
         cursor: 'pointer',
@@ -21,7 +31,7 @@ export const deleteButton = style({
 });
 
 export const link = style({
-    width: '244',
+    width: 230,
     display: 'block',
     padding: '8px 16px',
     textDecoration: 'none',

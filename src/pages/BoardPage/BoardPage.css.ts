@@ -13,6 +13,19 @@ export const title = style({
     fontSize: 24,
     margin: 0,
     padding: '0 10px',
+    fontWeight: 600,
+    border: 'none',
+    background: 'none',
+    width: '100%',
+    ':focus': {
+        width: '100%',
+        height: 20,
+        backgroundColor: '#fff',
+        borderRadius: 8,
+        padding: '6px 12px',
+        border: '1px solid #f1f2f4',
+        color: '#44546f',
+    },
 });
 
 export const boardPage = style({
@@ -21,6 +34,7 @@ export const boardPage = style({
     height: '100vh',
     backgroundColor: '#0c73e4',
     paddingLeft: 260,
+    paddingRight: 360,
 });
 
 export const lists = style({
@@ -40,7 +54,7 @@ export const addListButton = style({
     height: 44,
     color: '#fff',
     backgroundColor: '#ffffff3d',
-    borderRadius: 5,
+    borderRadius: 12,
     cursor: 'pointer',
     fontSize: 14,
     fontWeight: 600,
@@ -50,52 +64,5 @@ export const addListButton = style({
     boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
     ':hover': {
         backgroundColor: '#ffffff2d',
-    },
-});
-
-export const addingForm = style({
-    width: 256,
-    height: 72,
-    backgroundColor: '#f1f2f4',
-    borderRadius: 5,
-    padding: 8,
-    boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
-});
-
-export const addingInput = style({
-    width: 230,
-    height: 20,
-    backgroundColor: '#fff',
-    borderRadius: 5,
-    padding: '6px 12px',
-    border: '1px solid #f1f2f4',
-    marginBottom: 6,
-});
-
-export const addingButton = style({
-    width: 80,
-    height: 32,
-    backgroundColor: '#0c66e4',
-    borderRadius: 5,
-    padding: '6px 12px',
-    fontSize: 14,
-    fontWeight: 600,
-    color: '#fff',
-    border: 'none',
-    cursor: 'pointer',
-    ':hover': {
-        backgroundColor: '#2048bb',
-    },
-});
-
-export const cancelButton = style({
-    height: 32,
-    background: 'none',
-    fontSize: 14,
-    fontWeight: 600,
-    border: 'none',
-    cursor: 'pointer',
-    ':hover': {
-        backgroundColor: '#091e4220',
     },
 });

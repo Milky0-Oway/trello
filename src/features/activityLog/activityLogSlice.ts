@@ -9,23 +9,32 @@ const activityLogSlice = createSlice({
     initialState,
     reducers: {
         addLog(state, action: PayloadAction<ActivityLog>) {
-            state.logs.push({
-                action: action.payload.action,
-                timestamp: new Date().toISOString(),
-                boardId: action.payload.boardId,
-                listId: action.payload.listId,
-                taskId: action.payload.taskId,
-            });
+            state.logs = [
+                {
+                    id: action.payload.id,
+                    timestamp: action.payload.timestamp,
+                    boardId: action.payload.boardId,
+                    listId: action.payload.listId,
+                    taskId: action.payload.taskId,
+                    leftSide: action.payload.leftSide,
+                    link: action.payload.link,
+                    rightSide: action.payload.rightSide,
+                },
+                ...state.logs,
+            ];
         },
     },
 });
 
 interface ActivityLog {
-    action: string;
+    id: string;
     timestamp: string;
     boardId?: string;
     listId?: string;
     taskId?: string;
+    leftSide: string;
+    link: string;
+    rightSide: string;
 }
 
 interface ActivityLogState {

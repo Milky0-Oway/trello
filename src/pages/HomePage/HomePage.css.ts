@@ -6,7 +6,6 @@ export const header = style({
 });
 
 export const list = style({
-    listStyle: 'none',
     display: 'grid',
     gridTemplateColumns: '1fr 1fr 1fr 1fr',
     padding: 0,

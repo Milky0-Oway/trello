@@ -3,11 +3,8 @@ import { useDispatch } from 'react-redux';
 import { addBoard } from '../../features/boards/boardsSlice';
 import { header, label, input, form, button, error } from './BoardModal.css';
 import { Modal } from '../Modal/Modal';
-
-interface BoardModalProps {
-    isVisible: boolean;
-    closeModal: () => void;
-}
+import { addLog } from '../../features/activityLog/activityLogSlice';
+import { v4 as uuidv4 } from 'uuid';
 
 export const BoardModal: React.FC<BoardModalProps> = ({
     isVisible,
@@ -24,11 +21,36 @@ export const BoardModal: React.FC<BoardModalProps> = ({
         e.preventDefault();
         if (title.trim() === '') return;
         const newBoard = {
-            id: Math.random().toString(36).substr(2, 9),
+            id: uuidv4(),
             title,
             lists: [],
         };
         dispatch(addBoard({ board: newBoard }));
+        dispatch(
+            addLog({
+                id: uuidv4(),
+                timestamp: new Date().toISOString(),
+                taskId: '',
+                listId: '',
+                boardId: '',
+                leftSide: 'created ',
+                link: ``,
+                rightSide: `this board`,
+            }),
+        );
+
+        dispatch(
+            addLog({
+                id: uuidv4(),
+                timestamp: new Date().toISOString(),
+                taskId: '',
+                listId: '',
+                boardId: newBoard.id,
+                leftSide: 'added this board to ',
+                link: ``,
+                rightSide: ``,
+            }),
+        );
         setTitle('');
         closeModal();
     };
@@ -48,10 +70,19 @@ export const BoardModal: React.FC<BoardModalProps> = ({
                 {title === '' && (
                     <p className={error}>Board title is required</p>
                 )}
-                <button className={button} onClick={handleCreateBoard}>
+                <button
+                    className={button}
+                    onClick={handleCreateBoard}
+                    aria-label="Create board"
+                >
                     Create
                 </button>
             </form>
         </Modal>
     );
 };
+
+interface BoardModalProps {
+    isVisible: boolean;
+    closeModal: () => void;
+}

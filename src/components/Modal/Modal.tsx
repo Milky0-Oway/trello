@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from 'react';
-import { modal, close } from './Modal.css.ts';
+import { modal, close, overlay } from './Modal.css.ts';
 
 export const Modal: React.FC<ModalProps> = ({
     isVisible,
@@ -32,11 +32,15 @@ export const Modal: React.FC<ModalProps> = ({
     if (!isVisible) return null;
 
     return (
-        <div className={modal} ref={modalRef}>
-            <button className={close} onClick={closeModal}>
-                x
-            </button>
-            {children}
+        <div className={overlay}>
+            <div className={modal} ref={modalRef}>
+                <button
+                    className={close}
+                    onClick={closeModal}
+                    aria-label="Cancel"
+                />
+                {children}
+            </div>
         </div>
     );
 };

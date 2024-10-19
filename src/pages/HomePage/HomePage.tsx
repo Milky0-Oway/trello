@@ -22,7 +22,7 @@ export const HomePage: React.FC = () => {
     return (
         <div className={boardsContainer}>
             <h1 className={header}>Boards</h1>
-            <ul className={list}>
+            <div className={list}>
                 <button className={create} onClick={openModal}>
                     Create Board
                 </button>
@@ -31,13 +31,13 @@ export const HomePage: React.FC = () => {
                     closeModal={closeModal}
                 />
                 {boards.map((board) => (
-                    <li className={item} key={board.id}>
+                    <div className={item} key={board.id}>
                         <Link className={link} to={`/board/${board.id}`}>
                             {board.title}
                         </Link>
-                    </li>
+                    </div>
                 ))}
-            </ul>
+            </div>
         </div>
     );
 };

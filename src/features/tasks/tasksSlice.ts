@@ -19,12 +19,15 @@ const tasksSlice = createSlice({
                 description: string;
             }>,
         ) {
-            const task = state.tasks.find(
+            const taskIndex = state.tasks.findIndex(
                 (task) => task.id === action.payload.taskId,
             );
-            if (task) {
-                task.title = action.payload.title;
-                task.description = action.payload.description;
+            if (taskIndex !== -1) {
+                state.tasks[taskIndex] = {
+                    ...state.tasks[taskIndex],
+                    title: action.payload.title,
+                    description: action.payload.description,
+                };
             }
         },
         deleteTask(state, action: PayloadAction<{ taskId: string }>) {
@@ -81,7 +84,7 @@ export const { addTask, editTask, deleteTask, updateTaskOrder } =
     tasksSlice.actions;
 export const tasksReducer = tasksSlice.reducer;
 
-interface Task {
+export interface Task {
     id: string;
     listId: string;
     title: string;
