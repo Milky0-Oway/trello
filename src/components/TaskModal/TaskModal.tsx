@@ -50,7 +50,7 @@ export const TaskModal: React.FC<TaskModalProps> = ({
         <div onClick={handleClick}>
             <Modal isVisible={isVisible} closeModal={handleCancel}>
                 <h2 className={header}>Edit a card</h2>
-                <form className={form}>
+                <form className={form} onSubmit={handleSave}>
                     <label className={label}>Title</label>
                     <input
                         className={input}
@@ -69,8 +69,7 @@ export const TaskModal: React.FC<TaskModalProps> = ({
                     />
                     <button
                         className={button}
-                        type="button"
-                        onClick={handleSave}
+                        type="submit"
                         aria-label="Save task"
                     >
                         Save

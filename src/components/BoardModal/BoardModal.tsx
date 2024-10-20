@@ -58,7 +58,7 @@ export const BoardModal: React.FC<BoardModalProps> = ({
     return (
         <Modal isVisible={isVisible} closeModal={closeModal}>
             <h2 className={header}>Create Board</h2>
-            <form className={form}>
+            <form className={form} onSubmit={handleCreateBoard}>
                 <label className={label}>Board title</label>
                 <input
                     className={input}
@@ -72,7 +72,7 @@ export const BoardModal: React.FC<BoardModalProps> = ({
                 )}
                 <button
                     className={button}
-                    onClick={handleCreateBoard}
+                    type="submit"
                     aria-label="Create board"
                 >
                     Create

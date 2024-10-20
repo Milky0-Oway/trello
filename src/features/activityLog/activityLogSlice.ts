@@ -26,7 +26,7 @@ const activityLogSlice = createSlice({
     },
 });
 
-interface ActivityLog {
+export interface ActivityLog {
     id: string;
     timestamp: string;
     boardId?: string;

@@ -1,8 +1,6 @@
 import { format, isToday, isYesterday } from 'date-fns';
 
-export const formatActivityTime = (timestamp: Date) => {
-    const now = new Date();
-
+export const formatActivityTime = (timestamp: Date, now: Date) => {
     const differenceInMinutes = Math.floor(
         (now.getTime() - timestamp.getTime()) / (1000 * 60),
     );

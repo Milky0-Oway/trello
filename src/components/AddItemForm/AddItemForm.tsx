@@ -54,34 +54,31 @@ export const AddItemForm: React.FC<AddItemFormProps> = ({
         setIsAdding(false);
     };
 
-    return (
-        <>
-            {isAdding ? (
-                <div className={addingForm} ref={modalRef}>
-                    <input
-                        className={addingInput}
-                        type="text"
-                        value={title}
-                        onChange={(e) => setTitle(e.target.value)}
-                        placeholder={placeholder}
-                    />
-                    <button className={addingButton} onClick={handleAddItem}>
-                        {buttonText}
-                    </button>
-                    <button
-                        className={cancelButton}
-                        onClick={() => setIsAdding(false)}
-                        aria-label="Cancel adding item"
-                    />
-                </div>
-            ) : (
-                <button
-                    className={buttonStyle}
-                    onClick={() => setIsAdding(true)}
-                >
-                    + {buttonText}
+    if (isAdding) {
+        return (
+            <div className={addingForm} ref={modalRef}>
+                <input
+                    className={addingInput}
+                    type="text"
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                    placeholder={placeholder}
+                />
+                <button className={addingButton} onClick={handleAddItem}>
+                    {buttonText}
                 </button>
-            )}
-        </>
+                <button
+                    className={cancelButton}
+                    onClick={() => setIsAdding(false)}
+                    aria-label="Cancel adding item"
+                />
+            </div>
+        );
+    }
+
+    return (
+        <button className={buttonStyle} onClick={() => setIsAdding(true)}>
+            + {buttonText}
+        </button>
     );
 };
